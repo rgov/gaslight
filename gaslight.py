@@ -99,7 +99,7 @@ async def graphql_request(request: Request):
         # See type InitializeSessionResponse in the GraphQL schema
         out = {
             'secure_id': v.get('session_secure_id'),
-            'project_id': v.get('organization_verbose_id'),
+            'project_id': '1',  # not verbose ID; expects a string
         }
     elif op == 'identifySession':
         out = v.get('session_secure_id')
