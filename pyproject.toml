@@ -1,0 +1,43 @@
+[project]
+name = "gaslight"
+version = "0.1.0"
+description = "Service to store-and-forward Highlight telemetry data"
+readme = "README.md"
+authors = [
+    { name = "Ryan Govostes" }
+]
+requires-python = ">=3.9"
+dependencies = [
+    "fastapi>=0.116.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "uvicorn",
+]
+
+[project.scripts]
+gaslight = "gaslight:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.sdist]
+only-include = [
+    "gaslight.py",
+    "pyproject.toml",
+    "LICENSE",
+    "README.md",
+]
+
+[tool.hatch.build.targets.wheel]
+only-include = [
+    "gaslight.py",
+]
+
+[tool.ruff]
+line-length = 80
+
+[tool.ruff.format]
+quote-style = "single"
