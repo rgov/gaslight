@@ -38,7 +38,7 @@ To push the stored data to the real Highlight backend, use:
 
     gaslight push \
         --graph-endpoint http://highlight.host:8082/public \
-        --otlp-endpoint http://highlight.host:4317/
+        --otlp-endpoint http://highlight.host:4318/
 
 The OTLP endpoint must use HTTP(S), and not gRPC. If omitted, the hosted highlight.io endpoints are used.
 
