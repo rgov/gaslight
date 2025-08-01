@@ -217,7 +217,6 @@ def main():
     )
     push.add_argument('--graph-endpoint', default='https://pub.highlight.io')
     push.add_argument('--otlp-endpoint', default='https://otel.highlight.io')
-    push.add_argument('--project', help='Replacement project ID')
 
     args = parser.parse_args()
 
