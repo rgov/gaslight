@@ -121,9 +121,9 @@ async def graphql_request(request: Request):
 
 
 @app.post('/otel/v1/{signal}')
-async def otlp_request(request: Request):
+async def otlp_request(request: Request, signal: str):
     payload = await request.json()
-    save_to_db('otel', payload)
+    save_to_db(f'otel:/v1/{signal}', payload)
 
     # The "partialSuccess" field is required; empty means full success.
     return JSONResponse({'partialSuccess': {}}, status_code=200)
@@ -142,6 +142,11 @@ def cmd_serve(args):
 
 
 def cmd_push(args):
+    endpoints = {
+        'gql': args.graph_endpoint,
+        'otel': args.otlp_endpoint,
+    }
+
     # Enumerate the stored requests in the database
     c = db.cursor()
     c.execute(
@@ -151,9 +156,11 @@ def cmd_push(args):
     failure = None
     processed = 0
     for rowid, dest, blob in c.fetchall():
-        endpoint = {'gql': args.graph_endpoint, 'otel': args.otlp_endpoint}[
-            dest
-        ]
+        # Expand 'gql' and 'otel' endpoints to the new URLs
+        endkind, _, endpath = dest.partition(':')
+        endpoint = endpoints.get(endkind)
+        if endpoint and endpath:
+            endpoint = f'{endpoint.rstrip("/")}{endpath}'
 
         # Forward the request to the Highlight backend
         req = urllib.request.Request(
