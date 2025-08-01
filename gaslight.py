@@ -105,9 +105,9 @@ async def graphql_request(request: Request):
         out = v.get('session_secure_id')
     elif op == 'addSessionProperties':
         out = v.get('session_secure_id')
-    elif op == 'pushPayload':
+    elif op in ('pushPayload', 'PushPayload'):
         out = v.get('payload_id', 0)
-    elif op == 'pushPayloadCompressed':
+    elif op in ('pushPayloadCompressed', 'PushPayloadCompressed'):
         # The schema says this returns Any, but it's actually null on success
         out = None
     elif op == 'pushMetrics':
